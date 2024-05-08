@@ -25,7 +25,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('companel/links/store',[LinkController::class,'store'])->name('link.store');
     Route::get('companel/links/edit/{id}',[LinkController::class,'edit'])->name('link.edit');
     Route::get('companel/links/show/{id}',[LinkController::class,'show'])->name('link.show');
-
     Route::put('companel/links/update/{id}', [LinkController::class, 'update'])->name('link.update');
     Route::delete('companel/links/delete/{id}', [LinkController::class, 'delete'])->name('link.delete');
     Route::get('link/{short_url}', [LinkController::class, 'shortenLink'])->name('short_url');
@@ -47,6 +46,7 @@ Route::middleware(['auth','isAdmin','verified'])->group(function () {
     Route::get('/companel/allusers',[AdminController::class,'allUsers'])->name('admin.allusers');
     Route::get('/companel/allusers/edit/{id}',[AdminController::class,'editUsers'])->name('admin.users.edit');
     Route::get('/companel/allusers/show/{id}',[AdminController::class,'showUsers'])->name('admin.users.show');
+    Route::delete('companel/allusers/delete/{id}', [AdminController::class, 'delete'])->name('admin.users.delete');
     Route::get('companel/inactive/user/{id}', [AdminController::class, 'inactiveUser'])->name('inactive.user');
     Route::get('companel/active/user/{id}', [AdminController::class, 'activeUser'])->name('active.user');
 });

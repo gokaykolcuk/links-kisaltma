@@ -59,10 +59,10 @@
                              <td> 
                                 <a href="{{route('admin.users.edit',$user->id)}}" class="btn btn-outline-primary">Edit</a>
                                 <a href="{{route('admin.users.show',$user->id)}}" class="btn btn-outline-warning">Show</a>
-                                <form action="{{ route('categories.delete', $user->id) }}" method="POST">
+                                <form action="{{ route('admin.users.delete', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this category?')">Delete</button>
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                                 </form>
                                 {{-- <a href="{{route('categories.delete',$cat->id)}}" class="btn btn-outline-danger">Delete</a> --}}
                              </td>

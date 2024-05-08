@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -11,8 +12,16 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     public function index(){
-        $category = Category::latest()->get();
-        return view('category.index',compact('category'));
+        $user = auth()->user();
+
+         if($user->role == 'admin'){
+           $category = Category::latest()->get();
+         }
+         else {
+           $category = Category::where('user_id', $user->id)->latest()->get();
+         }
+         return view('category.index',compact('category'));
+
      }
      public function create(){
         $category = Category::all();

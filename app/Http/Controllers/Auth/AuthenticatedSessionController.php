@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLoggedIn;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,11 +28,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        $user = Auth::user();
+          
+        event(new UserLoggedIn($user));
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
-    /**
+    /** 
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse

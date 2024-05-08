@@ -16,12 +16,26 @@ use Stevebauman\Location\Facades\Location;
 class LinkController extends Controller
 {
     public function index(){
-        $links = Link::latest()->get();
+        
+        $user = auth()->user();  
+        if($user->role == 'admin'){
+         $links = Link::latest()->get();
+        }
+        else{
+            $links = Link::where('user_id', $user->id)->latest()->get();
+        }
         return view('links.link',compact('links'));
     }
 
     public function create(){
-        $categories = Category::all();
+        $user = auth()->user();  
+        if($user->role == 'admin'){
+            $categories = Category::latest()->get();
+           }
+           else{
+               $categories = Category::where('user_id', $user->id)->latest()->get();
+           }
+        
         return view('links.create',compact('categories'));
     }
     
@@ -107,7 +121,7 @@ class LinkController extends Controller
 
         $ip = request()->ip();  
         if ($ip == '127.0.0.1' || $ip == '::1') {
-            $ip = request()->ip();
+            $ip ='8.8.8.8';
         }
 
         try {

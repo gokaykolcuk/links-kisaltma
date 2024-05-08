@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'isAdmin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
         ]);
     })
+    ->withEvents(discover: [
+        __DIR__.'/../app/Listeners/LogUserLogin.php',
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

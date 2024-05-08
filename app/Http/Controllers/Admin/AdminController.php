@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+ 
 class AdminController extends Controller
 {
      public function allUsers(){
@@ -16,7 +16,7 @@ class AdminController extends Controller
         $allusers = User::find($id);
         return view('admin.users.usersEdit',compact('allusers'));
      }
-     public function showUsers($id){
+     public function showUsers(Request $request,$id){
         $allusers = User::find($id);
         return view('admin.users.usersShow',compact('allusers'));
      }
@@ -40,5 +40,14 @@ class AdminController extends Controller
              'alert-type' =>'success'
          );
         return redirect()->route('admin.allusers')->with($notification);
+    }
+
+    public function delete($id){
+        User::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'User Successfully Deleted',
+             'alert-type' =>'success'
+         );
+         return redirect()->route('admin.allusers')->with($notification);
     }
 }
