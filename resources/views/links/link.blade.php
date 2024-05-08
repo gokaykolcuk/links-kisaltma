@@ -26,11 +26,8 @@
         <div class="card">
             <div class="card-body">
 
-                <h4 class="card-title">Default Datatable</h4>
-                <p class="card-title-desc">DataTables has most features enabled by
-                    default, so all you need to do to use it with your own tables is to call
-                    the construction function: <code>$().DataTable();</code>.
-                </p>
+                <h4 class="card-title">All Links</h4>
+                
 
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
@@ -39,6 +36,7 @@
                             <th>Original Url</th>
                             <th>Shorter Url</th>
                             <th>Kategori</th>
+                            <th>Click</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -51,9 +49,11 @@
                                  <td>{{$link->original_url}}</td>
                                  <td>{{$link->short_url}}</td>
                                  <td>{{$link->category ? $link->category->name : 'No Category';}}</td>
+                                 <td>{{$link->click_count}}</td>
                                  <td>{{$link->created_at->format('d-m-y H:i:s')}}</td>
                                  <td> 
                                      <a href="{{route('link.edit',$link->id)}}" class="btn btn-outline-primary">Edit</a>
+                                     <a href="{{route('link.show',$link->id)}}" class="btn btn-outline-info">Show</a>
                                     <form action="{{ route('link.delete', $link->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -100,7 +100,7 @@
  <script src="{{asset('assets/libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
  
  <!-- Responsive examples -->
- <script src="{{asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.j')}}"></script>
+ <script src="{{asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
  <script src="{{asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
 
  <!-- Datatable init js -->

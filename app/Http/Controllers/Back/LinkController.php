@@ -4,9 +4,15 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Click;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use GuzzleHttp\Client;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Stevebauman\Location\Facades\Location;
+
 class LinkController extends Controller
 {
     public function index(){
@@ -49,6 +55,12 @@ class LinkController extends Controller
         $links = Link::findOrFail($id);
         return view('links.edit',compact('links','categories'));
     }
+    public function show($id){
+        $categories = Category::all();
+        $links = Link::findOrFail($id);
+        
+        return view('links.show',compact('links','categories'));
+    }
 
     public function update(Request $request, $id){
         $request->validate([
@@ -84,14 +96,45 @@ class LinkController extends Controller
         ]);
     }
 
-    public function shortenLink($short_link){
+    public function shortenLink($short_link) : RedirectResponse
+    {
         
-        $find = Link::where('short_url', $short_link)->first();
-        if (!$find || !$find->is_active) { // Link bulunamadığında veya aktif değilse
+        $link = Link::where('short_url', $short_link)->first();
+
+        if (!$link || !$link->is_active) {
             return view('errors.404');
-        } else {
-            return redirect($find->original_url);
         }
+
+        $ip = request()->ip();  
+        if ($ip == '127.0.0.1' || $ip == '::1') {
+            $ip = request()->ip();
+        }
+
+        try {
+            $currentUserInfo = Location::get($ip);
+            if (!$currentUserInfo) {
+                throw new \Exception("Konum bilgisi çekilemedi");
+            }
+            
+            Click::create([
+                'link_id' => $link->id,
+                'ip_address' => $ip,
+                'country' => $currentUserInfo->countryName ?? null,
+                'city' => $currentUserInfo->cityName ?? null,
+                'postal_code' => $currentUserInfo->postalCode ?? null,
+                'latitude' => $currentUserInfo->latitude ?? null,
+                'longitude' => $currentUserInfo->longitude ?? null
+            ]);
+        } catch (\Exception $e) {
+            Log::error("IP lokasyon çekme hatası: " . $e->getMessage());
+           
+            Click::create([
+                'link_id' => $link->id,
+                'ip_address' => $ip
+            ]);
+        }
+        $link->increment('click_count');
+        return redirect($link->original_url);  
     }
 
     public function inactiveLink($id){

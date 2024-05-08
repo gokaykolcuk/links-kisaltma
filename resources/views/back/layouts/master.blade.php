@@ -368,16 +368,19 @@
                              
 
                             <li class="menu-title">Pages</li>
-
+                            @php
+                                $user = Auth::user();
+                            @endphp
                            
+                            @if ($user->role === 'admin')
 
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="ri-profile-line"></i>
-                                    <span>Utility</span>
+                                    <span>Settings</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="pages-starter.html">Starter Page</a></li>
+                                    <li><a href="{{route('admin.allusers')}}">All User</a></li>
                                     <li><a href="pages-timeline.html">Timeline</a></li>
                                     <li><a href="pages-directory.html">Directory</a></li>
                                     <li><a href="pages-invoice.html">Invoice</a></li>
@@ -385,7 +388,7 @@
                                     <li><a href="pages-500.html">Error 500</a></li>
                                 </ul>
                             </li>
-
+                            @endif
                             <li class="menu-title">Components</li>
 
                             <li>
@@ -469,7 +472,7 @@
 
                         </ul>
                     </div>
-                    <!-- Sidebar -->
+                    
                 </div>
             </div>
             <!-- Left Sidebar End -->
