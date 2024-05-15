@@ -5,6 +5,7 @@ use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\LinkController;
 use App\Http\Controllers\Back\ProfilesController;
 use App\Http\Controllers\Back\CategoryController;
+use App\Http\Controllers\Back\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,7 +38,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('companel/category/edit/{id}',[CategoryController::class,'edit'])->name('categories.edit');
     Route::put('companel/category/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('companel/category/delete/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
-
+    Route::get('companel/inactive/category/{id}', [CategoryController::class, 'inactiveCategory'])->name('inactive.category');
+    Route::get('companel/active/category/{id}', [CategoryController::class, 'activeCategory'])->name('active.category');
+    
+     
     
      Route::post('logout',[DashboardController::class,'logout'])->name('logout');
 });

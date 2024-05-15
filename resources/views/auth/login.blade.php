@@ -37,7 +37,7 @@
                         </div>
     
                         <h4 class="text-muted text-center font-size-18"><b>Sign In</b></h4>
-    
+                        
                         <div class="p-3">
                             <form class="form-horizontal mt-3" method="POST" action="{{ route('login') }}">
                                 @csrf
@@ -46,12 +46,21 @@
                                         <input class="form-control" type="text" name="email" id="email" required="" placeholder="Email Or Username">
                                     </div>
                                 </div>
-    
+                                @if ($errors->has('email'))
+                                <div class="alert alert-danger">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">
                                         <input class="form-control" type="password" name="password" id="password" required="" placeholder="Password">
                                     </div>
                                 </div>
+                                @if ($errors->has('password'))
+                                <div class="alert alert-danger">
+                                    {{ $errors->first('password') }}
+                                  </div>
+                              @endif
     
                                 <div class="form-group mb-3 row">
                                     <div class="col-12">

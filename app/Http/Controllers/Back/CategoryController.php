@@ -78,4 +78,27 @@ class CategoryController extends Controller
       return redirect()->route('categories.index')->with($notification);
  
       }
+      public function inactiveCategory($id){
+        Category::findOrFail($id)->update([
+            'is_active' => 0
+        ]);
+        $notification = array(
+          'message' => 'Category Inactive Successfully',
+           'alert-type' =>'success'
+       );
+  
+       return redirect()->route('categories.index')->with($notification);
+      }
+
+      public function activeCategory($id){
+        Category::findOrFail($id)->update([
+            'is_active' => 1
+        ]);
+        $notification = array(
+          'message' => 'Category Active Successfully',
+           'alert-type' =>'success'
+       );
+  
+       return redirect()->route('categories.index')->with($notification);
+      }
 }

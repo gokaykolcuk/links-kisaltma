@@ -57,6 +57,14 @@
                                 </form>
                                 {{-- <a href="{{route('categories.delete',$cat->id)}}" class="btn btn-outline-danger">Delete</a> --}}
                              </td>
+                             <td>
+                                @if ($cat->is_active == 1)
+                                 <a href="{{route('inactive.category',$cat->id)}}" class="btn btn-outline-primary" title="Make Inactive"><i class="fa-solid fa-thumbs-down"></i></a>
+                                @else 
+                                <a href= "{{route('active.category',$cat->id)}}" class="btn btn-outline-primary" title="Make active"><i class="fa-solid fa-thumbs-up"></i></a>
+
+                                @endif
+                             </td>
                         </tr>
                         @endforeach
                         

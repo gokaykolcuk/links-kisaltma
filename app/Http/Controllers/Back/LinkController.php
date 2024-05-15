@@ -110,12 +110,12 @@ class LinkController extends Controller
         ]);
     }
 
-    public function shortenLink($short_link) : RedirectResponse
+    public function shortenLink($short_link) 
     {
         
         $link = Link::where('short_url', $short_link)->first();
 
-        if (!$link || !$link->is_active) {
+        if ($link->is_active == 0) {
             return view('errors.404');
         }
 
